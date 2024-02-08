@@ -1,4 +1,6 @@
 # Box Annotator
+![](.images/tool.jpeg)
+
 Simple annotation tool for bounding boxes in images that also enables pre-annotations (for example from a object detection model) to be loaded and corrected. No classes are required and also enables editing of image captions, allowing for creating annotations for visual grounding models.
 
 ### Installation
