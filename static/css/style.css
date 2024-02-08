@@ -1,0 +1,106 @@
+html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow-y: hidden;
+    user-select: none;
+}
+
+#annotation-container {
+    text-align: center;
+    height: 100%;
+}
+
+#controls {
+    height: 10%;
+}
+
+#controls input,
+#controls button {
+    margin-top: 1em;
+    font-size: 1em;
+}
+
+#image-display-container {
+    height: 60%;
+    width: 100%;
+    display: flex;
+    border: 1px solid black;
+}
+
+#image-display-container img {
+    height: 100%;
+    width: 70%;
+    float: left;
+    object-fit: contain;
+}
+
+#image-display-container #boxes-list {
+    height: 100%;
+    width: 30%;
+    overflow-y: scroll;
+}
+
+#image-info {
+    height: 30%;
+}
+
+#image-info textarea {
+    width: calc(100% - 2em);
+    height: calc(100% - 4em);
+    font-size: 1em;
+}
+
+.box {
+    text-align: left;
+    border: 2px solid red;
+    height: 100px;
+    width: 100px;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.box-text {
+    font-size: 0.5em;
+    position: absolute;
+}
+
+.box-handle {
+    height: 0.5em;
+    width: 0.5em;
+    position: absolute;
+    z-index: 2;
+    cursor: nwse-resize;
+}
+
+#boxes-list {
+    border: 1px solid black;
+    text-align: left;
+}
+
+.boxes-list-add {
+    font-size: 0.5em;
+}
+
+.boxes-list-item {
+    border: 1px solid black;
+    padding-left: 0.5em;
+}
+
+.boxes-list-item-delete {
+    font-size: 0.5em;
+}
+
+.boxes-list-item-text {
+    font-size: 0.5em;
+}

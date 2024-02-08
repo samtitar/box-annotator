@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Annotation Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <div id="boxes-container"></div>
+    <div id="annotation-container">
+        <div id="controls">
+            <button id="prev" onClick="prevAnnotation();">Back</button>
+            <button id="next" onClick="nextAnnotation();" >Next</button>
+            <button id="save" onClick="saveAnnotation();">Save</button>
+            <input type="number" id="annotation-index" min="0" value="0" onChange="changeAnnotation();">
+            <br/>
+
+            Image path: <span id="image-path"></span><br/>
+        </div>
+        
+        <div id="image-display-container">
+            <img id="image-display" src="" alt="Annotated Object">
+            <div id="boxes-list"></div>
+        </div>
+
+        <div id="image-info">
+            <textarea id="image-caption"></textarea>
+        </div>
+    </div>
+</body>
+</html>
