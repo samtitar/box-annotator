@@ -37,16 +37,15 @@ function getContainedSize(img) {
     return [width, height]
 }
 
-function drawBoxes()
-{
+function drawBoxes() {
     // Remove all boxes
     var boxes = document.getElementsByClassName("box");
-    while(boxes[0]) {
+    while (boxes[0]) {
         boxes[0].parentNode.removeChild(boxes[0]);
     }
 
     var imgElement = document.getElementById("image-display");
-    var imgSize =  getContainedSize(imgElement);
+    var imgSize = getContainedSize(imgElement);
     var imgElementWidth = imgSize[0];
     var imgElementHeight = imgSize[1];
 
@@ -58,8 +57,7 @@ function drawBoxes()
         topOffset += extraTopOffset;
     }
 
-    for (var i = 0; i < curImgData.boxes.length; i++)
-    {
+    for (var i = 0; i < curImgData.boxes.length; i++) {
         var box = curImgData.boxes[i];
         var boxElement = document.createElement("div");
 
@@ -88,10 +86,9 @@ function drawBoxes()
     }
 }
 
-function fillBoxesList()
-{
+function fillBoxesList() {
     var boxesList = document.getElementById("boxes-list");
-    while(boxesList.firstChild) {
+    while (boxesList.firstChild) {
         boxesList.removeChild(boxesList.firstChild);
     }
 
@@ -99,7 +96,7 @@ function fillBoxesList()
     addBoxButton.innerHTML = "Add Box";
     addBoxButton.className = "boxes-list-add";
 
-    addBoxButton.onclick = function() {
+    addBoxButton.onclick = function () {
         curImgData.boxes.push([0.4, 0.4, 0.2, 0.2]);
         curImgData.phrases.push("");
         updateBoxDisplays();
@@ -107,8 +104,7 @@ function fillBoxesList()
 
     boxesList.appendChild(addBoxButton);
 
-    for (var i = 0; i < curImgData.boxes.length; i++)
-    {
+    for (var i = 0; i < curImgData.boxes.length; i++) {
         var boxElement = document.createElement("div");
         boxElement.id = "box-list-item-" + i;
         boxElement.className = "boxes-list-item";
@@ -118,7 +114,7 @@ function fillBoxesList()
         deleteButton.innerHTML = "X";
         deleteButton.className = "boxes-list-item-delete";
 
-        deleteButton.onclick = function() {
+        deleteButton.onclick = function () {
             curImgData.boxes.splice(this.parentNode.id.split("-")[3], 1);
             curImgData.phrases.splice(this.parentNode.id.split("-")[3], 1);
             updateBoxDisplays();
@@ -128,15 +124,33 @@ function fillBoxesList()
         boxText.className = "boxes-list-item-text";
         boxText.value = curImgData.phrases[i];
 
-        boxText.onchange = function() {
+        boxText.onchange = function () {
             curImgData.phrases[this.parentNode.id.split("-")[3]] = this.value;
             updateBoxDisplays();
         }
 
+        var modeSelection = document.createElement("input");
+        modeSelection.className = "boxes-list-item-mode";
+        modeSelection.type = "checkbox";
+        modeSelection.checked = curImgData.modes[i] == "od" ? true : false;
+
+        modeSelection.onchange = function () {
+            console.log(this.checked);
+            var value = "vg";
+            if (this.checked) {
+                value = "od";
+            }
+
+            console.log(value);
+            curImgData.modes[this.parentNode.id.split("-")[3]] = value;
+            console.log(curImgData.modes);
+        }
+
         boxElement.appendChild(deleteButton);
         boxElement.appendChild(boxText);
+        boxElement.appendChild(modeSelection);
 
-        boxElement.onclick = function() {
+        boxElement.onclick = function () {
             highLightBox(this.id.split("-")[3]);
         }
 
@@ -144,18 +158,16 @@ function fillBoxesList()
     }
 }
 
-function highLightBox(index)
-{
+function highLightBox(index) {
     var boxElement = document.getElementById("box-" + index);
     var handles = document.getElementsByClassName("box-handle");
 
-    while(handles[0]) {
+    while (handles[0]) {
         handles[0].parentNode.removeChild(handles[0]);
     }
 
     var boxes = document.getElementsByClassName("box");
-    for (var i = 0; i < boxes.length; i++)
-    {
+    for (var i = 0; i < boxes.length; i++) {
         boxes[i].style.zIndex = 1;
         boxes[i].style.backgroundColor = "rgba(0, 0, 0, 0)";
     }
@@ -171,7 +183,7 @@ function highLightBox(index)
     topLeftDrag.style.top = "0px";
     topLeftDrag.style.backgroundColor = color;
 
-    topLeftDrag.onmousedown = function(e) {
+    topLeftDrag.onmousedown = function (e) {
         handleDrag("top-left", e);
     }
 
@@ -181,7 +193,7 @@ function highLightBox(index)
     topRightDrag.style.top = "0px";
     topRightDrag.style.backgroundColor = color;
 
-    topRightDrag.onmousedown = function(e) {
+    topRightDrag.onmousedown = function (e) {
         handleDrag("top-right", e);
     }
 
@@ -191,7 +203,7 @@ function highLightBox(index)
     bottomLeftDrag.style.bottom = "0px";
     bottomLeftDrag.style.backgroundColor = color;
 
-    bottomLeftDrag.onmousedown = function(e) {
+    bottomLeftDrag.onmousedown = function (e) {
         handleDrag("bottom-left", e);
     }
 
@@ -201,7 +213,7 @@ function highLightBox(index)
     bottomRightDrag.style.bottom = "0px";
     bottomRightDrag.style.backgroundColor = color;
 
-    bottomRightDrag.onmousedown = function(e) {
+    bottomRightDrag.onmousedown = function (e) {
         handleDrag("bottom-right", e);
     }
 
@@ -213,10 +225,10 @@ function highLightBox(index)
     centerDrag.style.top = "12.5%";
     centerDrag.style.backgroundColor = "rgba(0, 0, 0, 0)";
 
-    centerDrag.onmousedown = function(e) {
+    centerDrag.onmousedown = function (e) {
         handleDrag("center", e);
     }
-    
+
     boxElement.appendChild(topLeftDrag);
     boxElement.appendChild(topRightDrag);
     boxElement.appendChild(bottomLeftDrag);
@@ -224,13 +236,12 @@ function highLightBox(index)
     boxElement.appendChild(centerDrag);
 }
 
-function handleDrag(corner, e)
-{
+function handleDrag(corner, e) {
     var boxElement = e.target.parentNode;
     var boxElementIndex = boxElement.id.split("-")[1];
 
     var imgElement = document.getElementById("image-display");
-    var imgSize =  getContainedSize(imgElement);
+    var imgSize = getContainedSize(imgElement);
     var imgElementWidth = imgSize[0];
     var imgElementHeight = imgSize[1];
 
@@ -250,7 +261,7 @@ function handleDrag(corner, e)
     var mouseStartX = e.clientX;
     var mouseStartY = e.clientY;
 
-    var mouseMove = function(e) {
+    var mouseMove = function (e) {
         var mouseDeltaX = e.clientX - mouseStartX;
         var mouseDeltaY = e.clientY - mouseStartY;
 
@@ -259,7 +270,7 @@ function handleDrag(corner, e)
             if (boxX + mouseDeltaX < 0) {
                 mouseDeltaX = -boxX;
             }
-            
+
             if (boxY + mouseDeltaY < 0) {
                 mouseDeltaY = -boxY;
             }
@@ -355,7 +366,7 @@ function handleDrag(corner, e)
         }
     }
 
-    var mouseUp = function(e) {
+    var mouseUp = function (e) {
         window.removeEventListener("mousemove", mouseMove);
         window.removeEventListener("mouseup", mouseUp);
 
@@ -376,14 +387,12 @@ function handleDrag(corner, e)
     window.addEventListener("mouseup", mouseUp);
 }
 
-function updateBoxDisplays()
-{
+function updateBoxDisplays() {
     drawBoxes();
     fillBoxesList();
 }
 
-function loadAnnotation(idx)
-{
+function loadAnnotation(idx) {
     // Load annotation from server at endpoint /get_annotation/{idx}
     fetch("/get_annotation/" + idx)
         .then(response => response.json())
@@ -394,7 +403,7 @@ function loadAnnotation(idx)
             window.dataLoaded = false;
             window.curImgData = data;
 
-            document.getElementById("image-display").onload = function() {
+            document.getElementById("image-display").onload = function () {
                 updateBoxDisplays();
                 document.getElementById("image-caption").value = curImgData.caption;
                 document.getElementById("image-path").innerHTML = curImgData.image_path;
@@ -403,41 +412,39 @@ function loadAnnotation(idx)
         });
 }
 
-function nextAnnotation()
-{
+function nextAnnotation() {
     saveAnnotation();
 
     currentIdx += 1;
     loadAnnotation(currentIdx);
 }
 
-function prevAnnotation()
-{
+function prevAnnotation() {
     saveAnnotation();
 
     currentIdx -= 1;
     loadAnnotation(currentIdx);
 }
 
-function changeAnnotation()
-{
+function changeAnnotation() {
     saveAnnotation();
 
     currentIdx = parseInt(document.getElementById("annotation-index").value);
     loadAnnotation(currentIdx);
 }
 
-function saveAnnotation()
-{
+function saveAnnotation() {
     if (!confirm("Are you sure you want to save the annotation?")) {
         return false;
     }
 
+    var imgModes = curImgData.modes;
     var imgCaption = document.getElementById("image-caption").value;
     var imgBoxes = curImgData.boxes;
     var imgPhrases = curImgData.phrases;
 
     var data = {
+        "modes": imgModes,
         "caption": imgCaption,
         "boxes": imgBoxes,
         "phrases": imgPhrases
@@ -454,7 +461,7 @@ function saveAnnotation()
     return true;
 }
 
-window.onload = function() {
+window.onload = function () {
     window.currentIdx = 0;
 
     loadAnnotation(currentIdx);

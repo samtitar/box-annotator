@@ -29,9 +29,9 @@ def index():
 @app.route("/get_annotation/<int:idx>")
 def get_annotation(idx):
     entry = load_entry(idx)
-    print(entry["image_path"])
 
     result = {
+        "modes": entry["modes"] if "modes" in entry else ["vg"] * len(entry["boxes"]),
         "boxes": entry["boxes"],
         "phrases": entry["phrases"],
         "caption": entry["caption"],
@@ -47,6 +47,7 @@ def update_annotation(idx):
 
     entry_id = idx2entry[idx]
 
+    annotations["entries"][entry_id]["modes"] = data["modes"]
     annotations["entries"][entry_id]["boxes"] = data["boxes"]
     annotations["entries"][entry_id]["phrases"] = data["phrases"]
     annotations["entries"][entry_id]["caption"] = data["caption"]
